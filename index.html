@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wedding of Adinda & John</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons for aesthetic icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;700&family=Playfair+Display:wght@400;700&family=Great+Vibes&family=Inter:wght@400;600;700&display=swap');
+        /* GLOBAL STYLES & COLOR PALETTE */
+        :root {
+            /* Warna Latar Belakang (Netral Hangat) */
+            --color-bg-lightest: #FBF8F0; 
+            --color-maroon: #500000; /* Warna Maroon/Burgundy untuk Latar Belakang Gelap */
+            --color-text-main: #4F352C; /* Dark Brown Text */
+            --color-accent: #800020; /* MERAH MAROON / BURGUNDY (Aksen Kuat) */
+            --color-border: #E0DED7; /* Border tipis netral */
+        }
+
+        /* Main body and general text font (Inter/Cormorant) */
+        .font-sans { font-family: 'Cormorant Garamond', 'Inter', serif; }
+        .font-cursive { font-family: 'Great Vibes', cursive; }
+        .font-serif-display { font-family: 'Playfair Display', serif; }
+
+        /* Custom Colors */
+        .bg-maroon-dark { background-color: #5C1820; }
+        .bg-maroon-light { background-color: #792731; }
+        .text-maroon-light { color: #8F4C54; }
+        .text-maroon-dark { color: #5C1820; }
+        .text-cream { color: #F5E8E5; }
+        .bg-cream { background-color: #F5E8E5; }
+        .border-maroon-600 { border-color: #792731; }
+        
+        
+        /* Layout */
+        body {
+            background-color: #F5E8E5; /* Light background for the overall page */
+            overflow-x: hidden;
+        }
+        .section { padding: 80px 20px; position: relative; border-top: 1px solid var(--color-border); }
+        .bg-maroon { background-color: var(--color-maroon); }
+
+
+        /* Container mimics mobile screen size centered on desktop */
+        #app-container {
+            max-width: 450px; /* Max width for mobile-like experience */
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        /* Cover Page styling */
+        #cover-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 50;
+            transition: opacity 0.5s ease-in-out;
+            background-color: #5C1820; /* Dark Maroon */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Hero image section */
+        .hero-section {
+            height: 80vh; /* Adjust for better fit on mobile screen */
+            background-size: cover;
+            background-position: center;
+            background-image: url('https://placehold.co/450x800/5C1820/F5E8E5?text=Image+Pasangan+Di+Sampul');
+        }
+
+        #story { overflow: hidden; }
+        .story-carousel-container { display: flex; transition: transform 0.5s ease-in-out; width: fit-content; }
+        .story-slide { flex-shrink: 0; width: 100vw; max-width: 830px; margin-right: 20px; padding: 20px; text-align: center; }
+        .story-content { background-color: rgba(255, 255, 255, 0.1); padding: 20px; margin-top: 20px; height: 400px; }
+        .full-width-img-story { width: 100%; max-height: 250px; object-fit: cover; margin-top: 20px; border-radius: 4px; }
+
+        /* Image for Bride and Groom */
+        .bride-img { background-image: url('./asset/img/wanita.jpg'); }
+        .groom-img { background-image: url('./asset/img/pria.jpg'); }
+
+        /* Calendar Styling */
+        .calendar-circle {
+            border: 3px solid #5C1820;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        .active-day {
+            background-color: #5C1820;
+            color: #F5E8E5;
+            height: 100px;
+            width: 100px;
+            font-size: 3.5rem;
+        }
+
+        /* Navigation Bar */
+        #nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 450px;
+            z-index: 40;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        /* Add to your existing <style> tag */
+        .pagination-dots .dot {
+            width: 24px;
+            height: 3px;
+            background-color: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pagination-dots .dot.active {
+            background-color: white;
+            width: 32px;
+        }
+        @keyframes floatingFlower {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0;
+            }
+            25% {
+                opacity: 0.8;
+            }
+            75% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translate(var(--translate-x, 100px), var(--translate-y, -100px)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .flower-animation {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-image: url("./asset/img/flower2.png");
+            background-size: contain;
+            animation: floatingFlower 15s infinite linear;
+        }
+
+        .delay-2 {
+            --translate-x: -150px;
+            --translate-y: -120px;
+            animation-delay: 5s;
+            left: 75%;
+            top: 60%;
+        }
+
+        .delay-4 {
+            --translate-x: 120px;
+            --translate-y: -80px;
+            animation-delay: 8s;
+            left: 25%;
+            top: 40%;
+        }
+
+        /* Position first flower */
+        .flower-animation:first-child {
+            left: 50%;
+            top: 50%;
+        }
+        /* Batasi tampilan wishlist jadi 5 item, sisanya scroll */
+        #wishesList {
+            max-height: calc(3 * 120px); /* sesuaikan 120px jika kartu ucapan Anda lebih/kurang tinggi */
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch; /* smooth scrolling di iOS */
+            padding-right: 8px; /* ruang agar scrollbar tidak menimpa isi */
+        }
+
+        /* Styling scrollbar kecil (opsional) */
+        #wishesList::-webkit-scrollbar { width: 6px; }
+        #wishesList::-webkit-scrollbar-thumb { background: rgba(92,24,32,0.18); border-radius: 6px; }
+        #wishesList::-webkit-scrollbar-track { background: transparent; }
+        /* Tambahkan di bagian style */
+        [data-aos] {
+            overflow-x: hidden;
+            overflow-y: visible;
+        }
+        
+        .aos-animate {
+            overflow: visible;
+        }
+        
+        /* Pastikan container utama tidak overflow */
+        #app-container {
+            overflow-x: hidden;
+            max-width: 450px;
+            min-height: 100vh;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex justify-center font-sans" style="overflow-x: hidden;">
+    
+
+    <!-- Main Application Container (Simulates Mobile Screen) -->
+    <div id="app-container" class="bg-cream">
+
+        <!-- User ID Display (MANDATORY) -->
+        <div id="userIdDisplay" class="hidden text-xs text-center p-1 bg-maroon-dark text-cream sticky top-0 z-30"></div>
+        
+        <!-- COVER PAGE -->
+        <div id="cover-page" class="flex flex-col justify-between items-center text-center p-8">
+            <!-- Background overlay with gradient -->
+            <div class="absolute inset-0 bg-cover bg-center z-0" 
+                style="background-image: url('./asset/img/img(1).jpg');">
+                <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(245, 232, 229, 0), rgba(245, 232, 229, 0.1), rgba(245, 232, 229, 0.2)); z-index: 10;"></div>
+            </div>
+
+            <!-- Floating flowers -->
+            <div class="flower-animation"></div>
+            <div class="flower-animation delay-2"></div>
+            <div class="flower-animation delay-4"></div>
+            
+            <!-- Content (moved to front) -->
+            <div class="relative z-10 text-cream top-28" style="top: -20px;">
+                <h2 class="text-shadow-lg text-shadow-cream text-1xl font-serif-display font-bold mb-12 text-maroon-dark " data-aos="fade-down" data-aos-delay="200">
+                    <span class="text-shadow-lg text-shadow-cream font-cursive text-maroon-light text-2xl block">Saudara <span id="guest-name">Tamu Undangan</span></span>Kami mengundang saudara pada hari pernikahan kami
+                </h2>
+            </div>
+            <!-- Bottom Button -->
+            <button id="open-invitation-btn" class="mb-12 w-4/5 py-3 bg-maroon-light hover:bg-maroon-dark transition-colors text-cream font-bold tracking-widest rounded-lg shadow-lg z-[99]" data-aos="fade-up" data-aos-delay="200">
+                OPEN INVITATION
+            </button>
+        </div>
+        
+        <!-- CONTENT SECTIONS (Initially Hidden) -->
+        <div id="main-content" class="min-h-screen hidden">
+            
+            <!-- Audio Placeholder (Invisible button to toggle music) -->
+            <div class="fixed top-4 right-4 z-40">
+                <button id="audio-toggle" class="p-3 rounded-full bg-maroon-dark text-cream shadow-lg">
+                    <i data-lucide="music" class="w-5 h-5"></i>
+                </button>
+                <audio id="wedding-audio" loop>
+                    <!-- Placeholder audio. Replace with a real audio URL if possible, otherwise it will remain silent. -->
+                    <source src="./asset/musik/musik.mp3" type="audio/mp3">
+                </audio>
+            </div>
+            
+            <!-- 1. INTRO & QURANIC VERSE SECTION -->
+            <section id="intro" class="p-8 pb-12 min-h-screen flex flex-col justify-start items-center relative overflow-hidden">
+            <!-- Background overlay with gradient -->
+            <div class="absolute inset-0 bg-cover bg-center z-0" 
+                style="background-image: url('./asset/img/img(1).jpg');">
+                <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(245, 232, 229, 0), rgba(245, 232, 229, 0.1), rgba(245, 232, 229, 0.2)); z-index: 10;"></div>
+            </div>
+
+            <!-- Floating flowers -->
+            <div class="flower-animation"></div>
+            <div class="flower-animation delay-2"></div>
+            <div class="flower-animation delay-4"></div>
+            
+            <!-- Content (moved to front) -->
+            <div class="relative z-10 text-cream top-28" style="top: 18rem;">
+                <h2 class="text-shadow-lg text-shadow-cream text-4xl font-serif-display font-bold mb-12 text-maroon-dark " data-aos="fade-down" data-aos-delay="400">
+                    <span class="text-shadow-lg text-shadow-cream font-cursive text-maroon-light text-2xl block mb-[-1rem]">Wedding Invitation</span>Iqbal & Lulu
+                </h2>
+            </div>
+        </section>
+
+            <!-- 2. BRIDE AND GROOM SECTION -->
+            <section id="couple" class="p-8 py-16 bg-cream text-maroon-dark text-center" data-aos="fade-down" data-aos-delay="400">
+                <h2 class="text-5xl font-serif-display tracking-wider mb-12">
+                    <span class="font-cursive text-maroon-light text-2xl block mb-2">Celebrating Our</span>
+                    LOVE <span class="text-sm block mt-2">With You</span>
+                </h2>
+
+                <!-- BRIDE -->
+                <div class="mb-16" data-aos="fade-left" data-aos-delay="400">
+                    <p class="font-cursive text-4xl text-maroon-light mb-4">The Bride</p>
+                    <div class="w-full h-96 bride-img bg-cover rounded-lg shadow-xl mb-6 bg-no-repeat"></div>
+                    <p class="text-xs font-semibold mb-2 flex justify-center items-center">
+                        <i data-lucide="instagram" class="w-4 h-4 mr-1"></i> LULU
+                    </p>
+                    <h3 class="text-4xl font-serif-display font-bold leading-none mb-2">Lulu Nurul Hikmah</h3>
+                    <p class="text-sm">
+                        Son of<br>
+                        Bpk Nursen<br>
+                        Ibu Onah
+                    </p>
+                </div>
+
+                <!-- GROOM -->
+                <div data-aos="fade-right" data-aos-delay="400" >
+                    <p class="font-cursive text-4xl text-maroon-light mb-4">The Groom</p>
+                    <div class="w-full h-96 groom-img bg-cover rounded-lg shadow-xl mb-6 bg-no-repeat"></div>
+                    <p class="text-xs font-semibold mb-2 flex justify-center items-center">
+                        <i data-lucide="instagram" class="w-4 h-4 mr-1"></i>IQBAL
+                    </p>
+                    <h3 class="text-4xl font-serif-display font-bold leading-none mb-2" data-aos-delay="600">AGUS MUHAMAD IQBAL</h3>
+                    <p class="text-sm" data-aos-delay="600">
+                        Son of<br>
+                        Bpk MGS Ibrahim<br>
+                        Ibu Neneng Asih
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION 4: STORY (CAROUSEL) -->
+    <section id="story" class="section bg-maroon text-white">
+        <div class="content-wrapper">
+            <h2 class="title-serif section-title">OUR <span class="accent-text">STORY</span></h2>
+            
+            <!-- KONTENER CAROUSEL -->
+            <div id="story-carousel" class="story-carousel-container">
+                
+                <!-- SLIDE 1 (The Beginning) -->
+                <div class="story-slide">
+                    <h3 class="script-font accent-text">First Meet (2018)</h3>
+                    <div class="story-content">
+                        <p>Pertengahan tahun 2018 kami saling mengenal satu sama lain melalui sosial media</p>
+                        <img src="./asset/img/first.jpg" alt="Story Image 1" class="full-width-img-story"/>
+                    </div>
+                </div>
+                
+                <!-- SLIDE 2 (Our First Trip) -->
+                <div class="story-slide">
+                    <h3 class="script-font accent-text">Relationship (2018)</h3>
+                    <div class="story-content">
+                        <p>25 Oktober 2018 kami berkomitmen untuk menjalin hubungan sebagai pasangan</p>
+                        <img src="./asset/img/pacaran.jpg" alt="Story Image 2" class="full-width-img-story"/>
+                    </div>
+                </div>
+
+                <!-- SLIDE 3 (The Proposal) -->
+                <div class="story-slide">
+                    <h3 class="script-font accent-text">Engagement (2023)</h3>
+                    <div class="story-content">
+                        <p>Setelah banyak drama yang dilalui hampir 5 tahun menjalin hubungan, akhirnya kami memutuskan untuk bertunangan  pada 6 November 2023
+</p>
+                        <img src="./asset/img/enggagement.jpg" alt="Story Image 3" class="full-width-img-story"/>
+                    </div>
+                </div>
+                
+                <!-- SLIDE 4 (The Commitment) -->
+                <div class="story-slide">
+                    <h3 class="script-font accent-text">Married (2025)</h3>
+                    <div class="story-content">
+                        <p>2 Tahun bertunangan kami memutuskan untuk mengikat janji pernikahan pada 14 Desember 2025</p>
+                        <img src="./asset/img/married.jpg" alt="Story Image 4" class="full-width-img-story"/>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Add this right after the story-carousel-container div -->
+            <div id="story-carousel" class="story-carousel-container">
+                <!-- ... existing slides ... -->
+            </div>
+
+            <!-- Add pagination dots here -->
+            <div class="pagination-dots flex justify-center space-x-2 mt-6">
+                <!-- Dots will be added dynamically via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+            <!-- 4. SAVE THE DATE & LOCATION SECTION -->
+            <section id="acara" class="py-16 bg-cream text-maroon-dark text-center">
+                <h2 class="text-5xl font-serif-display font-bold mb-12" data-aos="fade-down" data-aos-delay="400">
+                    <span class="font-cursive text-maroon-light text-2xl block mb-[-1rem]">Don't Forget</span>
+                    SAVE THE DATE
+                </h2>
+
+                <p class="text-xl font-semibold mb-6" data-aos="fade-right" data-aos-delay="400">DECEMBER 2025</p>
+
+                <!-- Calendar Mockup (Simplified for Mobile) -->
+                <div class="flex justify-center text-sm font-semibold mb-10" data-aos="fade-up">
+                    <div class="mx-3">SATURDAY<div class="calendar-circle ">13</div></div>
+                    <div class="mx-3">SUNDAY<div class="calendar-circle mt-2 active-day">14</div></div>
+                    <div class="mx-3">MONDAY<div class="calendar-circle mt-2">15</div></div>
+                </div>
+
+                <!-- ACARA 1: Marriage Contract (Akad Nikah) -->
+                <div class="mb-12 px-8">
+                    <p class="font-cursive text-4xl text-maroon-light mb-6" data-aos="fade-down">Marriage Contract</p>
+                    <p class="font-bold text-sm mb-4" data-aos="fade-left" data-aos-delay="400">Sunday, December 14th - 2025</p>
+                    <p class="text-sm font-semibold" data-aos="fade-right" data-aos-delay="400">at 08:00 WIB - finish</p>
+                    
+                    <div class="flex items-center justify-center mt-4 text-left max-w-xs mx-auto">
+                        <i data-lucide="map-pin" class="w-5 h-5 flex-shrink-0 mr-2 text-maroon-light"></i>
+                        <p class="text-xs"data-aos="fade-up" data-aos-delay="400">
+                            Dusun 02, Rt/Rw 002/004 Desa Cilengkrang Kecamatan Pasaleman Kabupaten Cirebon
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ACARA 2: Reception (Resepsi) -->
+                <div class="mb-12 px-8">
+                    <p class="font-cursive text-4xl text-maroon-light mb-6" data-aos="fade-down" data-aos-delay="400">Reception</p>
+                    <p class="font-bold text-sm mb-4" data-aos="fade-left" data-aos-delay="400">Sunday, December 14th, 2025</p>
+                    <p class="text-sm font-semibold" data-aos="fade-right" data-aos-delay="400">at 08:00 WIB - finish</p>
+
+                    <div class="flex items-center justify-center mt-4 text-left max-w-xs mx-auto">
+                        <i data-lucide="map-pin" class="w-5 h-5 flex-shrink-0 mr-2 text-maroon-light"></i>
+                        <p class="text-xs" data-aos="fade-up" data-aos-delay="400">
+                            Dusun 02, Rt/Rw 002/004 Desa Cilengkrang Kecamatan Pasaleman Kabupaten Cirebon
+                        </p>
+                    </div>
+                </div>
+
+                <!-- MAP Button (Placeholder) -->
+                <div class="flex justify-center w-screen">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3960.799937788625!2d108.73907087499653!3d-6.914507393085048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwNTQnNTIuMiJTIDEwOMKwNDQnMjkuOSJF!5e0!3m2!1sid!2sid!4v1762186830404!5m2!1sid!2sid" width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <a href="https://google.com/maps?q=-6.9145073890686,108.741645812988" target="_blank" class="mt-4 px-8 py-3 bg-maroon-dark hover:bg-maroon-light transition-colors text-cream font-bold tracking-widest rounded-lg shadow-lg text-sm">
+                    SEE LOCATION
+                </a>
+            </section>
+
+            <!-- 5. RSVP SECTION -->
+            <section id="rsvp" class=" bg-maroon-dark text-cream text-center">
+                <div class="flex justify-center items-center h-48 text-cream">
+                    <h2 class="text-6xl font-serif-display font-bold" data-aos="fade-down" data-aos-delay="400">
+                        <span class="font-cursive text-maroon-light text-2xl block mb-[-1rem]" data-aos="fade-up" data-aos-delay="400">See you there</span>
+                        RSVP
+                    </h2>
+                </div>
+                
+                <div class="p-8">
+                    <form onsubmit="event.preventDefault(); submitRsvp();" id="rsvpForm">
+                        <input type="text" id="rsvpFullName" placeholder="Your full name" required
+                            class="w-full p-3 mb-4 bg-maroon-dark border-b border-cream focus:border-maroon-light outline-none transition-all placeholder-cream placeholder-opacity-75 text-sm">
+                        
+                        <input type="tel" id="rsvpWhatsapp" placeholder="Whatsapp number ex: 6289666..." required
+                            class="w-full p-3 mb-4 bg-maroon-dark border-b border-cream focus:border-maroon-light outline-none transition-all placeholder-cream placeholder-opacity-75 text-sm">
+
+                        <input type="text" id="rsvpAddress" placeholder="Address/Company"
+                            class="w-full p-3 mb-6 bg-maroon-dark border-b border-cream focus:border-maroon-light outline-none transition-all placeholder-cream placeholder-opacity-75 text-sm">
+
+                        <!-- Radio Buttons -->
+                        <div class="text-left mb-6 space-y-3">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="rsvp_status" id="rsvpYes" value="Hadir" class="form-radio h-4 w-4 text-maroon-light border-cream bg-maroon-dark checked:bg-maroon-light checked:ring-2 checked:ring-offset-2 checked:ring-maroon-light focus:ring-maroon-light transition duration-150 ease-in-out" required>
+                                <span class="ml-3 text-sm">Yes, I'll Be There</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="rsvp_status" id="rsvpNo" value="Tidak Hadir" class="form-radio h-4 w-4 text-maroon-light border-cream bg-maroon-dark checked:bg-maroon-light checked:ring-2 checked:ring-offset-2 checked:ring-maroon-light focus:ring-maroon-light transition duration-150 ease-in-out">
+                                <span class="ml-3 text-sm">Sorry, I Can't</span>
+                            </label>
+                        </div>
+                        
+                        <button id="submitRsvpButton" type="submit" disabled
+                            class="w-full py-3 bg-maroon-light hover:bg-white hover:text-maroon-dark transition-colors text-cream font-bold tracking-widest rounded-lg shadow-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                            SUBMIT CONFIRMATION
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- 6. PRECIOUS MOMENT (GALLERY) SECTION -->
+            <section id="gallery" class="py-16 bg-cream text-maroon-dark text-center">
+                <h2 class="text-5xl font-serif-display font-bold mb-12" data-aos="zoom-out" data-aos-delay="400">
+                    <span class="font-cursive text-maroon-light text-2xl block mb-[-1rem]" data-aos="zoom-in" data-aos-delay="400">Our</span>
+                    PRECIOUS MOMENT
+                </h2>
+
+                <div class="grid grid-cols-1 gap-4 p-4">
+                    <!-- Gallery Item 1 -->
+                    <div class="rounded-lg shadow-md overflow-hidden h-64 bg-cover bg-center bg-gray-200" style="background-image: url('./asset/img/img\(1\).jpg');" data-aos="fade-left" data-aos-delay="200"></div>
+                    <!-- Gallery Item 2 -->
+                    <div class="rounded-lg shadow-md overflow-hidden h-64 bg-cover bg-center bg-gray-200" style="background-image: url('./asset/img/img\(2\).jpg');"data-aos="fade-right" data-aos-delay="200"></div>
+                    <!-- Gallery Item 3 -->
+                    <div class="rounded-lg shadow-md overflow-hidden h-64 bg-cover bg-center bg-gray-200" style="background-image: url('./asset/img/pria.jpg');"data-aos="fade-left" data-aos-delay="200"></div>
+                    <!-- Gallery Item 4 -->
+                    <div class="rounded-lg shadow-md overflow-hidden h-64 bg-cover bg-center bg-gray-200" style="background-image: url('./asset/img/wanita.jpg');"data-aos="fade-right" data-aos-delay="200"></div>
+                    <!-- Gallery Item 5 -->
+                    <div class="rounded-lg shadow-md overflow-hidden h-64 bg-cover bg-center bg-gray-200" style="background-image: url('./asset/img/img\(5\).jpg');"data-aos="fade-left" data-aos-delay="200"></div>
+                    <!-- Gallery Item 6 -->
+                    <div class="rounded-lg shadow-md overflow-hidden h-64 bg-cover bg-center bg-gray-200" style="background-image: url('./asset/img/img\(6\).jpg');"data-aos="fade-right" data-aos-delay="200"></div>
+                    <!-- Gallery Item 7 -->
+                    <div class="rounded-lg shadow-md overflow-hidden h-64 bg-cover bg-center bg-gray-200" style="background-image: url('./asset/img/img\(7\).jpg');"data-aos="fade-left" data-aos-delay="200"></div>
+                </div>
+                
+                <!-- LIVE STREAMING SECTION -->
+                <!-- <div id="live-streaming" class="mt-12 p-4">
+                    <h3 class="text-4xl font-serif-display font-bold mb-4">LIVE STREAMING</h3>
+                    <p class="text-sm text-gray-600 mb-6">
+                        Please watch the live streaming in the live streaming menu.
+                    </p> -->
+                    <!-- Placeholder for embedded video/stream -->
+                    <!-- <div class="aspect-video w-full max-w-xs mx-auto bg-gray-300 rounded-lg flex items-center justify-center text-xs text-gray-500">
+                        Placeholder Video Live Stream
+                    </div>
+                </div> -->
+
+            </section>
+
+            <!-- 7. DIGITAL GIFT SECTION -->
+            <section id="gift" class="py-16 bg-maroon-dark text-cream text-center">
+                <h2 class="text-6xl font-serif-display font-bold mb-8" data-aos="zoom-out">
+                    GIFT
+                    <span class="font-cursive text-maroon-light text-2xl block mt-[-1rem]" data-aos="zoom-in">For bride & groom</span>
+                </h2>
+
+                <div class="p-8">
+                    <p class="text-sm leading-relaxed mb-6 max-w-md mx-auto">
+                        Catatan kado atau kata kata terimakasih untuk yang memberikan hadiah. di menu (Amplop digital)
+                    </p>
+
+                    <!-- Gift Option Buttons -->
+                    <div class="flex justify-center space-x-2 mb-8 text-xs font-semibold">
+                        <button id="qris-btn" class="gift-tab-btn py-2 px-4 rounded-full bg-maroon-light text-cream transition-colors">QRIS</button>
+                        <button id="transfer-btn" class="gift-tab-btn py-2 px-4 rounded-full bg-transparent border border-maroon-light text-maroon-light hover:bg-maroon-light hover:text-cream transition-colors">Direct Transfer</button>
+                        <button id="send-gift-btn" class="gift-tab-btn py-2 px-4 rounded-full bg-transparent border border-maroon-light text-maroon-light hover:bg-maroon-light hover:text-cream transition-colors">Send Gift</button>
+                    </div>
+
+                    <!-- Gift Content Areas -->
+                    <div id="qris-content" class="gift-content">
+                        <p class="text-sm font-semibold mb-4">Pindai kode QRIS di bawah ini:</p>
+                        <img src="https://placehold.co/200x200/F5E8E5/5C1820?text=QRIS+CODE" alt="QRIS Code Placeholder" class="mx-auto rounded-lg mb-6 shadow-lg">
+                        <button onclick="alertModal('Gambar QRIS telah disimpan (Simulasi)')" class="px-6 py-2 bg-maroon-light hover:bg-cream hover:text-maroon-dark transition-colors text-cream font-bold rounded-lg text-sm">
+                            DOWNLOAD QRIS
+                        </button>
+                    </div>
+
+                    <div id="transfer-content" class="gift-content hidden text-left max-w-xs mx-auto">
+                        <p class="text-sm font-semibold text-center mb-4">Transfer directly to the account below:</p>
+                        
+                        <!-- Account 1 -->
+                        <div class="bg-white text-maroon-dark p-4 rounded-lg shadow-md mb-4">
+                            <p class="font-bold">Mandiri</p>
+                            <div class="flex justify-between items-center text-sm mt-1">
+                                <span id="acc1-number">1340029287611</span>
+                                <button onclick="copyToClipboard('acc1-number')" class="p-1 rounded-full text-maroon-dark hover:bg-maroon-light hover:text-cream transition-colors" title="Salin">
+                                    <i data-lucide="copy" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs">a/n Lulu Nurul Hikmah</p>
+                        </div>
+                        
+                        <!-- Account 2 -->
+                        <div class="bg-white text-maroon-dark p-4 rounded-lg shadow-md mb-4">
+                            <p class="font-bold">BNI</p>
+                            <div class="flex justify-between items-center text-sm mt-1">
+                                <span id="acc2-number">1794080326</span>
+                                <button onclick="copyToClipboard('acc2-number')" class="p-1 rounded-full text-maroon-dark hover:bg-maroon-light hover:text-cream transition-colors" title="Salin">
+                                    <i data-lucide="copy" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs">a/n Agus Muhamad Iqbal</p>
+                        </div>
+
+                        <button onclick="document.getElementById('qris-btn').click();" class="mt-4 px-6 py-2 bg-maroon-light hover:bg-cream hover:text-maroon-dark transition-colors text-cream font-bold rounded-lg text-sm w-full">
+                            SHOW QR
+                        </button>
+                    </div>
+
+                    <div id="send-gift-content" class="gift-content hidden text-left max-w-xs mx-auto">
+                        <form onsubmit="event.preventDefault(); alertModal('send Gift Success');">
+                            <input type="text" placeholder="Your full name" required
+                                class="w-full p-3 mb-4 bg-maroon-dark border-b border-cream focus:border-maroon-light outline-none transition-all placeholder-cream placeholder-opacity-75 text-sm">
+                            
+                            <input type="email" placeholder="Your email address"
+                                class="w-full p-3 mb-4 bg-maroon-dark border-b border-cream focus:border-maroon-light outline-none transition-all placeholder-cream placeholder-opacity-75 text-sm">
+
+                            <textarea placeholder="Your message" rows="3"
+                                class="w-full p-3 mb-6 bg-maroon-dark border-b border-cream focus:border-maroon-light outline-none transition-all placeholder-cream placeholder-opacity-75 text-sm"></textarea>
+                            
+                            <button type="submit"
+                                class="w-full py-3 bg-maroon-light hover:bg-white hover:text-maroon-dark transition-colors text-cream font-bold tracking-widest rounded-lg shadow-lg text-sm">
+                                MAKE A GIFT NOW →
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- 8. GUEST WISHES SECTION -->
+            <section id="wishes" class="py-16 bg-cream text-maroon-dark text-center">
+                <h2 class="text-6xl font-serif-display font-bold mb-8" data-aos="zoom-in" data-aos-delay="300">
+                    WISHES
+                    <span class="font-cursive text-maroon-light text-2xl block mt-[-1rem]" data-aos="zoom-out" data-aos-delay="400">Give the best</span>
+                    <span class="text-sm block mt-2">For groom & bride</span>
+                </h2>
+
+                <div class="p-8 max-w-xs mx-auto">
+                    <!-- Wish Input Form -->
+                    <form onsubmit="event.preventDefault(); submitWish();" id="wishForm">
+                        <input type="text" id="wishFullName" placeholder="Your full name" required
+                            class="w-full p-3 mb-4 bg-white border border-gray-300 rounded-lg focus:border-maroon-light outline-none transition-all text-sm">
+                        
+                        <input type="text" id="wishAddress" placeholder="Your address / location"
+                            class="w-full p-3 mb-4 bg-white border border-gray-300 rounded-lg focus:border-maroon-light outline-none transition-all text-sm">
+
+                        <textarea id="wishMessage" placeholder="ex: congrats for this event" rows="3" required
+                            class="w-full p-3 mb-6 bg-white border border-gray-300 rounded-lg focus:border-maroon-light outline-none transition-all text-sm"></textarea>
+                        
+                        <button id="submitWishButton" type="submit"
+                            class="w-full py-3 bg-maroon-dark hover:bg-maroon-light transition-colors text-cream font-bold tracking-widest rounded-lg shadow-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                            SUBMIT NOW
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Wishes List -->
+                <div id="wishesList" class="p-8 pt-4 max-w-md mx-auto text-left">
+                    <!-- Wishes will be dynamically loaded here by JavaScript -->
+                    <p class="text-center text-maroon-700 italic">Memuat ucapan...</p>
+                </div>
+            </section>
+
+            <!-- 9. CLOSING / THANK YOU SECTION -->
+            <section id="closing" class="py-16 bg-maroon-dark text-cream text-center min-h-screen flex flex-col justify-between items-center">
+                <div class="p-8">
+                    <p class="text-xl leading-relaxed max-w-xs mx-auto mb-10">
+                        It is an honor and happiness for us if, Mr / Mrs / Brother / i. Thank you for coming to give us your blessing.
+                    </p>
+                    <h2 class="text-6xl font-serif-display font-bold mb-12 tracking-widest" data-aos="zoom-in" data-aos-delay="600">THANK YOU</h2>
+                </div>
+
+                <!-- Closing Image and Text -->
+                <div class="w-full">
+                    <div class="w-full h-52 bg-cover bg-center" style="background-image: url('./asset/img/beach.jpg');">
+                    </div>
+                    <div class="py-8">
+                        <h1 class="font-cursive text-5xl leading-none text-cream">Iqbal & Lulu</h1>
+                        <p class="text-sm tracking-widest mt-4">06 . 11 . 2025</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- NAVIGATION BAR (Fixed at Bottom) -->
+        <nav id="nav-bar" class="hidden bg-maroon-dark border-t border-maroon-light p-3">
+            <ul class="flex justify-around text-cream text-center text-xs">
+                <li><a href="#intro" class="flex flex-col items-center p-1 hover:text-maroon-light"><i data-lucide="home" class="w-5 h-5"></i><span>Home</span></a></li>
+                <li><a href="#couple" class="flex flex-col items-center p-1 hover:text-maroon-light"><i data-lucide="heart" class="w-5 h-5"></i><span>Couple</span></a></li>
+                <li><a href="#acara" class="flex flex-col items-center p-1 hover:text-maroon-light"><i data-lucide="calendar-check" class="w-5 h-5"></i><span>Acara</span></a></li>
+                <li><a href="#gallery" class="flex flex-col items-center p-1 hover:text-maroon-light"><i data-lucide="gallery-vertical-end" class="w-5 h-5"></i><span>Galeri</span></a></li>
+                <li><a href="#wishes" class="flex flex-col items-center p-1 hover:text-maroon-light"><i data-lucide="message-square" class="w-5 h-5"></i><span>Ucapan</span></a></li>
+            </ul>
+        </nav>
+    </div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+    <!-- MAIN JAVASCRIPT LOGIC -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // --- Cover Page & Audio Logic ---
+        const coverPage = document.getElementById('cover-page');
+        const mainContent = document.getElementById('main-content');
+        const navBar = document.getElementById('nav-bar');
+        const openBtn = document.getElementById('open-invitation-btn');
+        const audio = document.getElementById('wedding-audio');
+        const audioToggle = document.getElementById('audio-toggle');
+        let isAudioPlaying = false;
+
+        openBtn.addEventListener('click', () => {
+            // 1. Hide cover page smoothly
+            coverPage.classList.add('opacity-0');
+            setTimeout(() => {
+                coverPage.style.display = 'none';
+                mainContent.classList.remove('hidden');
+                navBar.classList.remove('hidden');
+                document.body.style.overflow = 'auto'; // Enable scrolling
+                AOS.refresh();
+                // 2. Play audio (triggered by user interaction)
+                try {
+                    audio.play().then(() => {
+                        isAudioPlaying = true;
+                        audioToggle.innerHTML = '<i data-lucide="volume-2" class="w-5 h-5"></i>'; // Volume On
+                        lucide.createIcons(); // Re-render icon
+                    }).catch(error => {
+                        console.log("Audio autoplay failed:", error);
+                        // Show muted icon if autoplay blocked
+                        audioToggle.innerHTML = '<i data-lucide="volume-x" class="w-5 h-5"></i>'; 
+                        lucide.createIcons(); // Re-render icon
+                    });
+                } catch (e) {
+                    console.log("Error playing audio:", e);
+                }
+            }, 500); // Duration of the opacity transition
+        });
+
+        // Audio Toggle handler
+        audioToggle.addEventListener('click', () => {
+            if (isAudioPlaying) {
+                audio.pause();
+                isAudioPlaying = false;
+                audioToggle.innerHTML = '<i data-lucide="volume-x" class="w-5 h-5"></i>'; // Volume Off
+            } else {
+                audio.play();
+                isAudioPlaying = true;
+                audioToggle.innerHTML = '<i data-lucide="volume-2" class="w-5 h-5"></i>'; // Volume On
+            }
+            lucide.createIcons();
+        });
+
+        // --- Digital Gift Logic ---
+        const giftTabs = document.querySelectorAll('.gift-tab-btn');
+        const giftContents = document.querySelectorAll('.gift-content');
+
+        // Function to switch gift tabs
+        const switchGiftTab = (activeId) => {
+            giftContents.forEach(content => {
+                content.classList.add('hidden');
+            });
+            giftTabs.forEach(btn => {
+                btn.classList.remove('bg-maroon-light', 'text-cream', 'border', 'border-maroon-light');
+                btn.classList.add('bg-transparent', 'border', 'border-maroon-light', 'text-maroon-light', 'hover:bg-maroon-light', 'hover:text-cream');
+            });
+
+            document.getElementById(`${activeId}-content`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`${activeId}-btn`);
+            activeBtn.classList.remove('bg-transparent', 'text-maroon-light', 'border');
+            activeBtn.classList.add('bg-maroon-light', 'text-cream');
+        };
+
+        giftTabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                switchGiftTab(btn.id.replace('-btn', ''));
+            });
+        });
+
+        // Set default tab to QRIS on load (mimicking the video)
+        document.addEventListener('DOMContentLoaded', () => {
+            switchGiftTab('qris');
+        });
+
+        // --- Copy to Clipboard Function (Used for Bank Accounts) ---
+        function copyToClipboard(elementId) {
+            const textToCopy = document.getElementById(elementId).textContent;
+            try {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = textToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                navigator.clipboard.writeText(textToCopy);
+                document.body.removeChild(tempInput);
+                showToast('Berhasil', 'Nomor rekening berhasil disalin!');
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                showToast('Gagal', 'Gagal menyalin. Silakan salin manual: ' + textToCopy);
+            }
+        }
+        window.copyToClipboard = copyToClipboard; // Expose to global scope for button click
+
+        // helper: create toast alert (uses your markup)
+        function showToast(title, message, duration = 3000) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'fixed top-6 left-1/2 transform -translate-x-1/2 z-50';
+            wrapper.innerHTML = `
+                <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 rounded shadow" role="alert">
+                <p class="font-bold">${title}</p>
+                <p class="text-sm">${message}</p>
+                </div>
+            `;
+            document.body.appendChild(wrapper);
+
+            // auto-hide with fade
+            setTimeout(() => {
+                wrapper.style.transition = 'opacity 300ms';
+                wrapper.style.opacity = '0';
+            }, duration - 300);
+            setTimeout(() => wrapper.remove(), duration);
+        }
+        // --- CAROUSEL OUR STORY LOGIC ---
+        const carousel = document.getElementById('story-carousel');
+        const slides = document.querySelectorAll('.story-slide');
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+
+        function initializeStoryPagination() {
+            const paginationContainer = document.querySelector('.pagination-dots');
+            
+            // Create dots based on number of slides
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                dot.addEventListener('click', () => goToSlide(i));
+                paginationContainer.appendChild(dot);
+            }
+        }
+        function goToSlide(index) {
+            if (carousel) {
+                // Gunakan lebar slide pertama sebagai referensi
+                const slideWidth = slides[0].clientWidth + 20; // + gap
+                carousel.style.transform = 'translateX(' + (-slideWidth * index) + 'px)';
+                currentIndex = index;
+
+                // Update active dot
+                document.querySelectorAll('.pagination-dots .dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+            }
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            goToSlide(currentIndex);
+        }
+
+        // Auto-swipe: Geser ke slide berikutnya setiap 4 detik (4000ms)
+        if (carousel) {
+            // Inisialisasi lebar slide agar sesuai
+            const storySection = document.getElementById('story');
+            if(storySection) {
+                 const slideWidth = storySection.clientWidth;
+                 // Atur total lebar kontainer agar semua slide berjejer
+                 carousel.style.width = (slideWidth * totalSlides) + (20 * totalSlides) + 'px'; 
+                 slides.forEach(slide => {
+                    slide.style.width = (slideWidth - 40) + 'px'; // width dikurangi padding/margin
+                 });
+            }
+            setInterval(nextSlide, 4000);
+            initializeStoryPagination();
+        }
+        // --- RSVP Form Logic ---
+        async function submitRsvp() {
+            const fullNameInput = document.getElementById('rsvpFullName');
+            const whatsappInput = document.getElementById('rsvpWhatsapp');
+            const addressInput = document.getElementById('rsvpAddress');
+            const statusRadio = document.querySelector('input[name="rsvp_status"]:checked');
+            
+            // Validate required fields
+            if (!fullNameInput.value || !whatsappInput.value || !statusRadio) {
+                showToast('Error', 'Please fill all required fields');
+                return;
+            }
+
+            // Prepare data object
+            const data = {
+                nama: fullNameInput.value,
+                whatsapp: whatsappInput.value,
+                alamat: addressInput.value || '-',
+                status: statusRadio.value
+            };
+            
+            // Google Apps Script URL
+            const url = `https://script.google.com/macros/s/AKfycbxc2LFR6TrIubY5CC-F5Yfhi8PkF5XHmwv5gLi6BBWCiSD1gblpNp97BkQ-xhgfld6D/exec?action=add&table=aguslulu&data=${encodeURIComponent(JSON.stringify(data))}`;
+
+            try {
+                const response = await fetch(url, { method: 'GET' });
+                
+                if (response.ok) {
+                    showToast('Success', 'Thank you for your RSVP!');
+                    
+                    // Reset form
+                    document.getElementById('rsvpForm').reset();
+                    
+                    // Disable submit button again
+                    document.getElementById('submitRsvpButton').disabled = true;
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            } catch (error) {
+                console.error('Error submitting RSVP:', error);
+                showToast('Error', 'Failed to submit RSVP. Please try again.');
+            }
+        }
+
+        // Enable submit button when required fields are filled
+        function validateRsvpForm() {
+            const fullName = document.getElementById('rsvpFullName').value;
+            const whatsapp = document.getElementById('rsvpWhatsapp').value;
+            const status = document.querySelector('input[name="rsvp_status"]:checked');
+            
+            const submitButton = document.getElementById('submitRsvpButton');
+            submitButton.disabled = !(fullName && whatsapp && status);
+        }
+
+        // Add event listeners to form inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const rsvpForm = document.getElementById('rsvpForm');
+            
+            if (rsvpForm) {
+                // Listen to input changes for validation
+                rsvpForm.querySelectorAll('input').forEach(input => {
+                    input.addEventListener('input', validateRsvpForm);
+                    input.addEventListener('change', validateRsvpForm);
+                });
+            }
+        });
+        // --- Wishes Form Logic ---
+        async function submitWish() {
+            const fullNameInput = document.getElementById('wishFullName');
+            const addressInput = document.getElementById('wishAddress');
+            const messageInput = document.getElementById('wishMessage');
+            
+            // Validate required fields
+            if (!fullNameInput.value || !messageInput.value) {
+                showToast('Error', 'Please fill name and message');
+                return;
+            }
+
+            // Prepare data object
+            const data = {
+                nama: fullNameInput.value,
+                alamat: addressInput.value || '-',
+                pesan: messageInput.value,
+                tanggal: new Date().toISOString()
+            };
+            
+            const submitButton = document.getElementById('submitWishButton');
+            submitButton.disabled = true;
+            
+            try {
+                // Google Apps Script URL - same as RSVP but different table
+                const url = `https://script.google.com/macros/s/AKfycbxc2LFR6TrIubY5CC-F5Yfhi8PkF5XHmwv5gLi6BBWCiSD1gblpNp97BkQ-xhgfld6D/exec?action=add&table=aguslulu_wishes&data=${encodeURIComponent(JSON.stringify(data))}`;
+                
+                const response = await fetch(url, { method: 'GET' });
+                
+                if (response.ok) {
+                    showToast('Success', 'Thank you for your wishes!');
+                    document.getElementById('wishForm').reset();
+                    // Refresh wishes list
+                    fetchWishes();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            } catch (error) {
+                console.error('Error submitting wish:', error);
+                showToast('Error', 'Failed to submit wish. Please try again.');
+            } finally {
+                submitButton.disabled = false;
+            }
+        }
+
+        // Fetch and display wishes
+        async function fetchWishes() {
+            const wishesContainer = document.getElementById('wishesList');
+            
+            try {
+                const url = 'https://script.google.com/macros/s/AKfycbxc2LFR6TrIubY5CC-F5Yfhi8PkF5XHmwv5gLi6BBWCiSD1gblpNp97BkQ-xhgfld6D/exec?action=getAll&table=aguslulu_wishes';
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data && data.length > 0) {
+                    // Sort wishes by date (newest first)
+                    const sortedWishes = data.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                    
+                    // Create HTML for wishes
+                    const wishesHTML = sortedWishes.map(wish => `
+                        <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h4 class="font-bold text-maroon-dark">${wish.nama}</h4>
+                                    <p class="text-xs text-gray-600">${wish.alamat}</p>
+                                </div>
+                                <span class="text-xs text-gray-500">${formatDate(wish.tanggal)}</span>
+                            </div>
+                            <p class="text-sm text-gray-700">${wish.pesan}</p>
+                        </div>
+                    `).join('');
+                    
+                    wishesContainer.innerHTML = wishesHTML;
+                } else {
+                    wishesContainer.innerHTML = '<p class="text-center text-gray-500 italic">No wishes yet. Be the first one!</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching wishes:', error);
+                wishesContainer.innerHTML = '<p class="text-center text-red-500">Failed to load wishes. Please try again later.</p>';
+            }
+        }
+
+        // Helper function to format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Load wishes when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // get guest name
+            function getGuestName() {
+                const params = new URLSearchParams(window.location.search);
+                const to = params.get('to');
+                if (!to) return "Tamu Undangan";
+                return decodeURIComponent(to)
+                    .replace(/[-_]/g, ' ')
+                    .replace(/\b\w/g, c => c.toUpperCase());
+            }
+
+            const guestNameSpan = document.getElementById('guest-name');
+            if (guestNameSpan) guestNameSpan.textContent = getGuestName();
+            fetchWishes();
+                
+            // Add validation to wish form
+            const wishForm = document.getElementById('wishForm');
+            if (wishForm) {
+                const validateWishForm = () => {
+                    const fullName = document.getElementById('wishFullName').value;
+                    const message = document.getElementById('wishMessage').value;
+                    const submitButton = document.getElementById('submitWishButton');
+                    submitButton.disabled = !(fullName && message);
+                };
+
+                wishForm.querySelectorAll('input, textarea').forEach(input => {
+                    input.addEventListener('input', validateWishForm);
+                    input.addEventListener('change', validateWishForm);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
